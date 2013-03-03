@@ -20,11 +20,11 @@ grunt.loadNpmTasks('grunt-ender');
 ## The "ender" task
 
 ### Overview
-This is a temporary utility for handling Ender builds without having to always use "--use" or "--output" to make any changes. Note that there is an official solution for this problem in the works [discussed on github](https://github.com/ender-js/Ender/issues/131) that should be available soon. In the meantime, you can use this grunt task as a method to make using Ender easier.
+This is a temporary utility for handling Ender builds without having to always type `--use` or `--output`. Note that there is an official solution for this problem [discussed on github](https://github.com/ender-js/Ender/issues/131) that should be available soon. In the meantime, you can use this grunt task to help make using Ender easier.
 
 Usage is simple:
 
-1. In your `package.json` file, add an `ender` key and a `grunt` key under that
+In your `package.json` file, add an `ender` key and a `grunt` key under that
 
 ```js
 "ender": {
@@ -34,7 +34,7 @@ Usage is simple:
 }
 ```
 
-2. Under the `grunt key`, add an `output` with a path to where you want the Ender file to go
+Under the `grunt` key, add an `output` param with a path to where you want the Ender file to go
 
 ```js
 "ender": {
@@ -55,6 +55,7 @@ The example above would save the Ender build to "public/scripts/vendor/ender.js"
     "dependencies": ["bean", "bonzo", "qwery"]
   }
 }
+```
 
 After this, you can run `grunt ender` to build (or rebuild) your library. Use `grunt ender --info` to see which libraries are currently in use.
 
