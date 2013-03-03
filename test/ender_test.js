@@ -30,8 +30,8 @@ exports.ender = {
 
   default_options: function(test) {
     test.expect(2);
-    test.ok(grunt.file.exists("tmp/good.js"));
-    test.ok(grunt.file.exists("tmp/good.min.js"));
+    test.ok(grunt.file.exists("tmp/scripts/ender.js"));
+    test.ok(grunt.file.exists("tmp/scripts/ender.min.js"));
     test.done();
   }
 };

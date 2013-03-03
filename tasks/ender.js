@@ -19,38 +19,31 @@ module.exports = function(grunt) {
     var file = require("file");
 
     var options = this.options({
-      config: "package.json"
+      output: "ender"
     });
 
-    // the package.json file may have already been loaded, so try and look for it, otherwise just read it
-    var pkg = grunt.config("pkg") || grunt.config("package") || grunt.file.readJSON(options.config);
-
-    // our configuration should be under a "grunt" object on the ender key
-    var config = pkg.ender.grunt;
-
-    // if it doesn't exist then complain
-    if (!config) { grunt.fail.warn("No ender configuration specified in package.json!"); }
+    if (!options.dependencies) { grunt.fail.warn("No ender dependencies specified!"); }
 
     // find the output path and ensure it exists.
-    var location = config.output;
-    var parentDirs = location.substring(0, location.lastIndexOf("/") || location.length()); // text after the last slash is the file, not a dir
+    var out = options.output;
+    var parentDirs = out.substring(0, out.lastIndexOf("/") || out.length()); // text after the last slash is the file, not a dir
     file.mkdirsSync(parentDirs);
 
     // figure out the dependencies
-    var dependencies = config.dependencies.reduce(function(x, y) { return x + " " + y; });
+    var dependencies = options.dependencies.reduce(function(x, y) { return x + " " + y; });
 
     var done = this.async();
 
     // hand off to ender
     if (grunt.option("info")) {
       // `grunt ender --info`
-      ender.exec(util.format("ender info --use %s", location));
-    } else if (target && target !== "build") {
+      ender.exec(util.format("ender info --use %s", out));
+    }  else if (target && target !== "build") {
       // `grunt ender:info` or `grunt ender:refresh`, etc...
-      ender.exec(util.format("ender %s --use %s", target, location));
+      ender.exec(util.format("ender %s --use %s", target, out));
     } else {
       // `grunt ender`
-      ender.exec(util.format("ender build %s --output %s", dependencies, location), function(error) {
+      ender.exec(util.format("ender build %s --output %s", dependencies, out), function(error) {
         if (error) { grunt.fail.warn("Could not build ender script!\n--> " + error); }
         done();
       });

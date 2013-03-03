@@ -31,7 +31,8 @@ module.exports = function(grunt) {
     // Configuration to be run (and then tested).
     ender: {
       options: {
-        config: "test/good/package.json"
+        output: "tmp/scripts/ender",
+        dependencies: ["bean", "bonzo"]
       }
     },
 
