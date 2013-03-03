@@ -20,70 +20,77 @@ grunt.loadNpmTasks('grunt-ender');
 ## The "ender" task
 
 ### Overview
-In your project's Gruntfile, add a section named `ender` to the data object passed into `grunt.initConfig()`.
+This is a temporary utility for handling Ender builds without having to always use "--use" or "--output" to make any changes. Note that there is an official solution for this problem in the works [discussed on github](https://github.com/ender-js/Ender/issues/131) that should be available soon. In the meantime, you can use this grunt task as a method to make using Ender easier.
+
+Usage is simple:
+
+1. In your `package.json` file, add an `ender` key and a `grunt` key under that
 
 ```js
-grunt.initConfig({
-  ender: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
-})
+"ender": {
+  "grunt": {
+
+  }
+}
 ```
 
-### Options
+2. Under the `grunt key`, add an `output` with a path to where you want the Ender file to go
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+```js
+"ender": {
+  "grunt": {
+    "output": "public/scripts/vendor/ender"
+  }
+}
+```
 
-A string value that is used to do something with whatever.
+The example above would save the Ender build to "public/scripts/vendor/ender.js".
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
+3. Lastly, add the list of dependencies
 
-A string value that is used to do something else with whatever else.
+```js
+"ender": {
+  "grunt": {
+    "output": "public/scripts/vendor/ender",
+    "dependencies": ["bean", "bonzo", "qwery"]
+  }
+}
+
+After this, you can run `grunt ender` to build (or rebuild) your library. Use `grunt ender --info` to see which libraries are currently in use.
+
+#### Other notes
+
+- It's expected that you include all of the Ender dependencies in the standard `dependencies` key of the package.json file as well. This way the grunt task doesn't have to deal with installing anything (assuming you run `npm install` as usual) and you can specify the versions you need.
+- To reiterate from above, this is a temporary hold-over until the official solution from Ender is in place. There are no guarantees about updates or bug fixes to this plugin once that is released.
+- When you run `grunt ender` or `grunt ender:build` it will actually rebuild the library from scratch. The regular Ender `add` and `remove` commands are not utilized. This means to add and remove libraries from the Ender build, edit your package.json file as appropriate.
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+#### Example `package.json` file (relevant portion only)
 
-```js
-grunt.initConfig({
-  ender: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+    "dependencies": {
+      "bean": "0.1.0",
+      "bonzo": "*",
+      "qwery": "*"
     },
-  },
-})
-```
+    "ender": {
+      "grunt": {
+        "output": "public/scripts/vendor/ender",
+        "dependencies": ["bean", "bonzo", "qwery"]
+      }
+    }
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+#### Building the Ender library
 
-```js
-grunt.initConfig({
-  ender: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-})
-```
+`grunt ender`
+`grunt ender:build`
+
+#### Information about the current build
+`grunt ender --info`
+`grunt ender:info`
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+0.1.0 - first version

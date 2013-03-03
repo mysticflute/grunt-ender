@@ -6,45 +6,42 @@
  * Licensed under the MIT license.
  */
 
-'use strict';
+"use strict";
 
 module.exports = function(grunt) {
 
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
-  grunt.registerMultiTask('ender', 'Your task description goes here.', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
-    });
+  grunt.registerTask("ender", "Execute the Ender build", function(target) {
+    var ender = require("ender");
+    var util = require("util");
 
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
-        }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
+    // the package.json file may have already been loaded, so try and look for it, otherwise just read it
+    var pkg = grunt.config("pkg") || grunt.config("package") || grunt.file.readJSON("package.json");
 
-      // Handle options.
-      src += options.punctuation;
+    // our configuration should be under a "grunt" object on the ender key
+    var config = pkg.ender.grunt;
 
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
+    if (!config) { grunt.fail.warn("No ender configuration specified in package.json!"); }
 
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
-    });
+    var location = config.output;
+    var dependencies = config.dependencies.reduce(function(x, y) { return x + " " + y; });
+
+    var done = this.async();
+
+    if (grunt.option("info")) {
+      // `grunt ender --info`
+      ender.exec(util.format("ender info --use %s", location));
+    } else if (target && target !== "build") {
+      // `grunt ender:info` or `grunt ender:refresh`, etc...
+      ender.exec(util.format("ender %s --use %s", target, location));
+    } else {
+      // `grunt ender`
+      ender.exec(util.format("ender build %s --output %s", dependencies, location), function(error) {
+        if (error) { grunt.fail.warn("Could not build ender script!\n--> " + error); }
+        done();
+      });
+    }
   });
-
 };

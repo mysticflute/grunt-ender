@@ -1,0 +1,7 @@
+{
+  "ender": {
+    "grunt": {
+      "output": "test/output/ender"
+    }
+  }
+}
