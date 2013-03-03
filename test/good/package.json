@@ -1,8 +1,0 @@
-{
-  "ender": {
-    "grunt": {
-      "output": "tmp/good",
-      "dependencies": ["bean"]
-    }
-  }
-}
