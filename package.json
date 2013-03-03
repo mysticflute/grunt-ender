@@ -42,6 +42,8 @@
     "grunt": "~0.4.0"
   },
   "keywords": [
-    "ender"
+    "gruntplugin",
+    "ender",
+    "enderjs"
   ]
 }
