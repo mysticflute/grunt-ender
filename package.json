@@ -1,7 +1,7 @@
 {
   "name": "grunt-ender",
   "description": "Manages you Ender build.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/endium/grunt-ender",
   "author": {
     "name": "Nathan McWilliams",
