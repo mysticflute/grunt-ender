@@ -63,7 +63,7 @@ After this, you can run `grunt ender` to build (or rebuild) your library. Use `g
 
 - It's expected that you include all of the Ender dependencies in the standard `dependencies` key of the package.json file as well. This way the grunt task doesn't have to deal with installing anything (assuming you run `npm install` as usual) and you can specify the versions you need.
 - To reiterate from above, this is a temporary hold-over until the official solution from Ender is in place. There are no guarantees about updates or bug fixes to this plugin once that is released.
-- When you run `grunt ender` or `grunt ender:build` it will actually rebuild the library from scratch. The regular Ender `add` and `remove` commands are not utilized. This means to add and remove libraries from the Ender build, edit your package.json file as appropriate.
+- When you run `grunt ender` or `grunt ender:build` it will actually rebuild the library from scratch. The regular Ender `add` and `remove` commands are not utilized directly. This means that to add and remove libraries from the Ender build, edit your package.json file as appropriate.
 
 ### Usage Examples
 
@@ -83,12 +83,10 @@ After this, you can run `grunt ender` to build (or rebuild) your library. Use `g
 
 #### Building the Ender library
 
-`grunt ender`
-`grunt ender:build`
+`grunt ender` or `grunt ender:build`
 
 #### Information about the current build
-`grunt ender --info`
-`grunt ender:info`
+`grunt ender --info` or `grunt ender:info`
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
