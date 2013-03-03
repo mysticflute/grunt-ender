@@ -29,7 +29,8 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "ender": "*"
+    "ender": "*",
+    "file": "*"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.1.1",

@@ -16,20 +16,32 @@ module.exports = function(grunt) {
   grunt.registerTask("ender", "Execute the Ender build", function(target) {
     var ender = require("ender");
     var util = require("util");
+    var file = require("file");
+
+    var options = this.options({
+      config: "package.json"
+    });
 
     // the package.json file may have already been loaded, so try and look for it, otherwise just read it
-    var pkg = grunt.config("pkg") || grunt.config("package") || grunt.file.readJSON("package.json");
+    var pkg = grunt.config("pkg") || grunt.config("package") || grunt.file.readJSON(options.config);
 
     // our configuration should be under a "grunt" object on the ender key
     var config = pkg.ender.grunt;
 
+    // if it doesn't exist then complain
     if (!config) { grunt.fail.warn("No ender configuration specified in package.json!"); }
 
+    // find the output path and ensure it exists.
     var location = config.output;
+    var parentDirs = location.substring(0, location.lastIndexOf("/") || location.length()); // text after the last slash is the file, not a dir
+    file.mkdirsSync(parentDirs);
+
+    // figure out the dependencies
     var dependencies = config.dependencies.reduce(function(x, y) { return x + " " + y; });
 
     var done = this.async();
 
+    // hand off to ender
     if (grunt.option("info")) {
       // `grunt ender --info`
       ender.exec(util.format("ender info --use %s", location));
