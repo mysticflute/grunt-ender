@@ -22,11 +22,11 @@ grunt.loadNpmTasks('grunt-ender');
 ### Overview
 This is a temporary utility for handling Ender builds without having to always type `--use` or `--output`. Note that there is an official solution for this problem [discussed on github](https://github.com/ender-js/Ender/issues/131) that should be available soon. In the meantime, you can use this grunt task to help make using Ender easier.
 
-Usage is simple. In your Gruntfile, add an `ender` task and under the `options` part you can specify the output location and the list of dependencies.
+Usage is simple. In your Gruntfile, add an `ender` task and under the `target` part you can specify the output location and the list of dependencies.
 
 ```js
 ender: {
-  options: {
+  target: {
     output: "public/scripts/vendor/ender",
     dependencies: ["bean", "bonzo", "qwery"]
   }
@@ -50,9 +50,13 @@ In your Gruntfile.js
 ```js
 grunt.initConfig({
   ender: {
-    options: {
+    desktop: {
       output: "public/scripts/vendor/ender",
       dependencies: ["bean", "bonzo", "qwery"]
+    },
+    mobile: {
+      output: "public/scripts/vendor/ender.mobile",
+      dependencies: ["bean", "bonzo", "qwery-mobile"]
     }
   }
 });
@@ -60,7 +64,7 @@ grunt.initConfig({
 
 #### Building the Ender Library
 
-`grunt ender` or `grunt ender:build`
+`grunt ender`
 
 #### Information About the Current Build
 `grunt ender --info` or `grunt ender:info`
