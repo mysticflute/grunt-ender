@@ -30,9 +30,13 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     ender: {
-      options: {
+      dist: {
         output: "tmp/scripts/ender",
         dependencies: ["bean", "bonzo"]
+      },
+      dist2: {
+        output: "tmp/scripts/ender.dist2",
+        dependencies: ["bean", "bonzo","qwery"]
       }
     },
 
