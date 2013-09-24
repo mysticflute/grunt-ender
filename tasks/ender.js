@@ -46,6 +46,7 @@ module.exports = function(grunt) {
       ender.exec(util.format("ender build %s --output %s", dependencies, out), function(error) {
         if (error) { grunt.fail.warn("Could not build ender script!\n--> " + error); }
         done();
+        grunt.event.emit("grunt_ender_build_done");
       });
     }
   });
