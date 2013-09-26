@@ -70,5 +70,6 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+- **0.2.1** - merge pull request for event hook
 - **0.2.0** - remove usage of package.json
 - **0.1.0** - first version
