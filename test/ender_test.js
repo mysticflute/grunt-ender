@@ -29,9 +29,11 @@ exports.ender = {
   },
 
   default_options: function(test) {
-    test.expect(2);
+    test.expect(4);
     test.ok(grunt.file.exists("tmp/scripts/ender.js"));
     test.ok(grunt.file.exists("tmp/scripts/ender.min.js"));
+    test.ok(grunt.file.exists("tmp/scripts/ender.dist2.js"));
+    test.ok(grunt.file.exists("tmp/scripts/ender.dist2.min.js"));
     test.done();
   }
 };

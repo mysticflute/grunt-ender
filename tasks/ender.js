@@ -10,17 +10,17 @@
 
 module.exports = function(grunt) {
 
+  var ender = require("ender");
+  var util = require("util");
+  var file = require("file");
+
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
-  grunt.registerTask("ender", "Execute the Ender build", function(target) {
-    var ender = require("ender");
-    var util = require("util");
-    var file = require("file");
+  grunt.registerMultiTask("ender", "Execute the Ender build", function(target) {
+    var done = this.async();
 
-    var options = this.options({
-      output: "ender"
-    });
+    var options = this.data;
 
     if (!options.dependencies) { grunt.fail.warn("No ender dependencies specified!"); }
 
@@ -31,8 +31,6 @@ module.exports = function(grunt) {
 
     // figure out the dependencies
     var dependencies = options.dependencies.reduce(function(x, y) { return x + " " + y; });
-
-    var done = this.async();
 
     // hand off to ender
     if (grunt.option("info")) {
