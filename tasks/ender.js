@@ -38,12 +38,19 @@ module.exports = function(grunt) {
     if (grunt.option("info")) {
       // `grunt ender --info`
       ender.exec(util.format("ender info --use %s", out));
-    }  else if (target && target !== "build") {
-      // `grunt ender:info` or `grunt ender:refresh`, etc...
+    } else if (target && (target !== "build" && target !== "refresh")) {
+      // `grunt ender:info`, etc...
       ender.exec(util.format("ender %s --use %s", target, out));
+    } else if ( target === "refresh" ) {
+      // `grunt ender:refresh`
+      ender.exec(util.format("ender %s --use %s", target, out), function(error) {
+        if (error) { grunt.fail.warn("Could not refresh ender script!\n--> " + error); }
+        done();
+        grunt.event.emit("grunt_ender_build_done");
+      });
     } else {
       // `grunt ender`
-      ender.exec(util.format("ender build %s --output %s", dependencies, out), function(error) {
+      ender.exec(util.format("ender %s %s --output %s", target, dependencies, out), function(error) {
         if (error) { grunt.fail.warn("Could not build ender script!\n--> " + error); }
         done();
         grunt.event.emit("grunt_ender_build_done");
