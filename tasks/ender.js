@@ -38,9 +38,21 @@ module.exports = function(grunt) {
     if (grunt.option("info")) {
       // `grunt ender --info`
       ender.exec(util.format("ender info --use %s", out));
-    }  else if (target && target !== "build") {
+    } else if (target && target !== "build" && options && ( options.use || options.opts)) {
       // `grunt ender:info` or `grunt ender:refresh`, etc...
-      ender.exec(util.format("ender %s --use %s", target, out));
+      if ( options.use && options.opts ) {
+        var exec = util.format("ender %s --use %s --output %s %s %s", target, options.use, out, options.opts, dependencies);
+      } else if ( options.use ) {
+        var exec = util.format("ender %s --use %s --output %s %s", target, options.use, out, dependencies);
+      } else if ( options.opts ) {
+        var exec = util.format("ender %s --output %s %s %s", target, out, options.opts, dependencies);
+      }
+
+      ender.exec(exec, function(error) {
+        if (error) { grunt.fail.warn(util.format("Could not run `ender %s`!\n--> ", target) + error); }
+        done();
+        grunt.event.emit("grunt_ender_build_done");
+      });
     } else {
       // `grunt ender`
       ender.exec(util.format("ender build %s --output %s", dependencies, out), function(error) {
